@@ -12,11 +12,18 @@ type GetTrackDetailsOutput = {
     data: TrackDetailsResource
 }
 
+const prepareHeaders = () => {
+    const apiKey = import.meta.env.VITE_API_KEY
+    if(!apiKey) return undefined
+
+    return {
+        'api-key': apiKey
+    }
+}
+
 export const getTrack = (trackId: string) => {
     const promise: Promise<GetTrackDetailsOutput> = fetch('https://musicfun.it-incubator.app/api/1.0/playlists/tracks/' + trackId, {
-            headers: { 
-                //'api-key': '05eed76f-c832-438e-ad78-47e88144b487' 
-            }
+            headers: prepareHeaders()
         }).then(res => res.json())
     
     return promise    
@@ -42,9 +49,7 @@ type GetTrackListOutput = {
 
 export const getTracksList = () => {
     const promise: Promise<GetTrackListOutput> = fetch('https://musicfun.it-incubator.app/api/1.0/playlists/tracks', {
-        headers: {
-            //'api-key': '05eed76f-c832-438e-ad78-47e88144b487'
-        }
+        headers: prepareHeaders()
     }).then(res => res.json())
 
     return promise
